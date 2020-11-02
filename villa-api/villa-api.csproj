@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>villa_api</RootNamespace>
+    <StartupObject>villa_api.Program</StartupObject>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>villa-api</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\domain-mapping\domain-mapping.csproj" />
+    <ProjectReference Include="..\http-infra\villa-http.csproj" />
+    <ProjectReference Include="..\villa-configuration\villa-configuration.csproj" />
+  </ItemGroup>
+
+
+</Project>

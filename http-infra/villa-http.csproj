@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>http_infra</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.9" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\domain-business\domain-business.csproj" />
+    <ProjectReference Include="..\domain-extensions\domain-extensions.csproj" />
+    <ProjectReference Include="..\domain-infra\domain-infra.csproj" />
+    <ProjectReference Include="..\villa-configuration\villa-configuration.csproj" />
+  </ItemGroup>
+
+</Project>
