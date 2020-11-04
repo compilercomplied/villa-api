@@ -6,14 +6,13 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace http_infra.Contracts
+namespace http_infra.Client.Contracts
 {
 
   public interface IAggregationProviderClient
   {
 
-    Task<HttpResult<OAuthCredentials, string>> GetOAuthCreds(string code);
-    Task<HttpResult<Transaction[], string>> QueryTransactions(string accessToken);
+    Task<HttpResult<Transaction[], string>> QueryTransactions(bool forceAuthRefresh);
 
   }
 

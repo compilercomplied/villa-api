@@ -3,7 +3,9 @@ using domain_business.Core.Transaction;
 using domain_business.Core.Transaction.Providers;
 using domain_extensions.Http.Result;
 using domain_infra.Auth;
-using http_infra.Contracts;
+using domain_infra.FixedValues;
+using http_infra.Client.Contracts;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -19,7 +21,6 @@ using villa_configuration.Clients;
 namespace http_infra.Client
 {
   // --- Type Aliases ----------------------------------------------------------
-  using OAuthResponse = HttpResult<OAuthCredentials, string>;
   using TransactionResponse = HttpResult<Transaction[], string>;
 
   // ---------------------------------------------------------------------------
@@ -27,33 +28,12 @@ namespace http_infra.Client
   public class TinkClient : IAggregationProviderClient
   {
 
-    // TODO Move to an env-based config.
-    private static string ClientID = Environment.GetEnvironmentVariable("TINK_CLIENT_ID");
-    private static string ClientSecret = Environment.GetEnvironmentVariable("TINK_CLIENT_SECRET");
-
-    private static string[] Scopes = {
-      "accounts:read",
-      "categories:read",
-      "credentials:read",
-      "follow:read",
-      "identity:read",
-      "investments:read",
-      "payment:read",
-      "payment:write",
-      "providers:read",
-      "statistics:read",
-      "suggestions:read",
-      "transactions:read",
-      "transfer:execute",
-      "transfer:read",
-      "user:read",
-    };
-
     #region services
     private readonly ILogger<TinkClient> _logger;
     private readonly TinkSettings _settings;
     private readonly HttpClient _client;
     private readonly IMapper _mapper;
+    private readonly IMemoryCache _cache;
     #endregion services
 
     #region constructor
@@ -61,79 +41,56 @@ namespace http_infra.Client
       ILogger<TinkClient> logger,
       HttpClient client,
       IOptions<TinkSettings> settings,
-      IMapper mapper
+      IMapper mapper,
+      IMemoryCache cache
     )
     {
-      _logger = logger;
       _client = client;
+
+      _logger = logger;
       _mapper = mapper;
+      _cache = cache;
+
       _settings = settings.Value;
+
     }
     #endregion constructor
 
-    public async Task<OAuthResponse> GetOAuthCreds(string code)
-    {
-      OAuthResponse result;
-
-
-      var path = _settings.APIPath.OAuthToken;
-
-      var request = new HttpRequestMessage(HttpMethod.Post, path);
-
-      var body = new List<KeyValuePair<string, string>>
-      { 
-        new KeyValuePair<string, string>("code", code),
-        new KeyValuePair<string, string>("client_id", ClientID),
-        new KeyValuePair<string, string>("client_secret", ClientSecret),
-        new KeyValuePair<string, string>("grant_type", "authorization_code"),
-      };
-
-      var content = new FormUrlEncodedContent(body);
-      request.Content = content;
-
-      var httpResponse = await _client.SendAsync(request);
-
-
-      if (httpResponse.IsSuccessStatusCode)
-      {
-
-        var credsRaw = await httpResponse.Content.ReadAsStringAsync();
-        var creds = JsonConvert.DeserializeObject<OAuthCredentials>(credsRaw);
-
-        result = OAuthResponse.OK(creds);
-
-      }
-      else
-      {
-
-        var errorMessage = await httpResponse.Content.ReadAsStringAsync();
-
-        result = OAuthResponse.FAIL(
-          HttpError<string>.FromRequest(errorMessage, httpResponse.StatusCode)
-        );
-
-      }
-
-
-      return result;
-
-    }
-
-    // TODO abstract away auth.
-    public async Task<TransactionResponse> QueryTransactions(string accessToken)
+    public async Task<TransactionResponse> QueryTransactions(bool forceAuthRefresh)
     {
       TransactionResponse result;
 
       var path = _settings.APIPath.SearchTransactions;
 
+      // -----------------------------------------------------------------------
+      // TEST SCAFFOLD
+      if (forceAuthRefresh)
+        _cache.Remove(TinkFV.ACCESS_TOKEN);
 
-      var searchRequest = new HttpRequestMessage(HttpMethod.Get, path);
+      // -----------------------------------------------------------------------
 
-      searchRequest.Headers.Authorization = 
+      // -----------------------------------------------------------------------
+      // TODO Move to a decorator.
+      /*
+      string accessToken = _cache.Get<string>(TinkFV.ACCESS_TOKEN);
+
+      if (string.IsNullOrEmpty(accessToken))
+      {
+        return TransactionResponse.FAIL(
+          HttpError<string>.FromRequest("Expired Tink credentials", System.Net.HttpStatusCode.Unauthorized));
+      }
+      */
+      // -----------------------------------------------------------------------
+
+      var request = new HttpRequestMessage(HttpMethod.Get, path);
+
+      /*
+      request.Headers.Authorization = 
         new AuthenticationHeaderValue("Bearer", accessToken);
+      */
 
 
-      var searchResponse = await _client.SendAsync(searchRequest);
+      var searchResponse = await _client.SendAsync(request);
 
 
       if (searchResponse.IsSuccessStatusCode)

@@ -1,7 +1,11 @@
 using AutoMapper;
 using domain_mapping;
+using http_infra.Auth.OAuth;
+using http_infra.Auth.OAuth.Contracts;
 using http_infra.Client;
-using http_infra.Contracts;
+using http_infra.Client.Contracts;
+using http_infra.Middleware;
+using http_infra.Middleware.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,17 +28,13 @@ namespace villa_api
 
     public void ConfigureServices(IServiceCollection services)
     {
+
       services.AddControllers();
       services.AddAutoMapper(typeof(MappingConfiguration));
-
       services.AddHttpClient();
-      services.AddHttpClient<IAggregationProviderClient, TinkClient>(client =>
-      {
-        // TODO move to a client based config @villa-configuration
-        client.BaseAddress = new Uri(@"https://api.tink.com/api/v1/");
-      });
+      services.AddMemoryCache();
 
-      services.Configure<TinkSettings>(Configuration.GetSection("TinkSettings"));
+      ConfigureTinkServices(services);
 
     }
 
@@ -56,5 +56,28 @@ namespace villa_api
         endpoints.MapControllers();
       });
     }
+
+    void ConfigureTinkServices(IServiceCollection services)
+    { 
+
+      // TODO move to a client based config @villa-configuration
+      services.AddHttpClient<IOAuthClient, TinkOAuthClient>(client =>
+      {
+        client.BaseAddress = new Uri(@"https://api.tink.com/api/v1/");
+      });
+
+      services.AddHttpClient<IAggregationProviderClient, TinkClient>(client =>
+      {
+        client.BaseAddress = new Uri(@"https://api.tink.com/api/v1/");
+      })
+      .AddHttpMessageHandler<IExternalOAuthHandler>();
+
+      services.AddTransient<IExternalOAuthHandler, TinkOAuthHandler>();
+
+      services.Configure<TinkSettings>(Configuration.GetSection("TinkSettings"));
+
+    }
+
   }
+
 }
