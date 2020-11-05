@@ -4,8 +4,6 @@ using infra_http.Auth.OAuth;
 using infra_http.Auth.OAuth.Contracts;
 using infra_http.Client;
 using infra_http.Client.Contracts;
-using infra_http.Middleware;
-using infra_http.Middleware.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -13,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using infra_configuration.Clients;
+using infra_http.Middleware.Request;
+using infra_http.Middleware.Request.Contracts;
 
 namespace villa_api
 {

@@ -1,6 +1,6 @@
 ﻿using domain_infra.FixedValues;
 using infra_http.Auth.OAuth.Contracts;
-using infra_http.Middleware.Contracts;
+using infra_http.Middleware.Request.Contracts;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System.Net;
@@ -9,7 +9,7 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace infra_http.Middleware
+namespace infra_http.Middleware.Request
 {
 
   public class TinkOAuthHandler : IExternalOAuthHandler
