@@ -71,7 +71,7 @@ namespace infra_http.Auth.OAuth
 
     // -------------------------------------------------------------------------
 
-    public async Task<OAuthResponse> GetOAuthCreds(string code)
+    public async Task<OAuthResponse> Authenticate(string code)
     {
       OAuthResponse result;
 
@@ -130,7 +130,7 @@ namespace infra_http.Auth.OAuth
 
     // -------------------------------------------------------------------------
 
-    public async Task<OAuthResponse> RefreshOAuthCreds()
+    public async Task<OAuthResponse> RefreshOAuth()
     {
       OAuthResponse result;
 

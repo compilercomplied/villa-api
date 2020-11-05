@@ -13,6 +13,7 @@ using System;
 using infra_configuration.Clients;
 using infra_http.Middleware.Request;
 using infra_http.Middleware.Request.Contracts;
+using http_infra.Middleware.Response;
 
 namespace villa_api
 {
@@ -40,10 +41,9 @@ namespace villa_api
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-      if (env.IsDevelopment())
-      {
-        app.UseDeveloperExceptionPage();
-      }
+      // if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
+
+      app.UseMiddleware<ExceptionHandler>();
 
       app.UseHttpsRedirection();
 

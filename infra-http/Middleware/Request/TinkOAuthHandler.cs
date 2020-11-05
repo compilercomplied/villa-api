@@ -72,7 +72,7 @@ namespace infra_http.Middleware.Request
 
       if (string.IsNullOrEmpty(refreshToken)) return false;
 
-      var req = await _oauth.RefreshOAuthCreds();
+      var req = await _oauth.RefreshOAuth();
 
       req.Unwrap();
 

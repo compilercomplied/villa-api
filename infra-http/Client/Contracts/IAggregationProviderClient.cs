@@ -12,7 +12,12 @@ namespace infra_http.Client.Contracts
   public interface IAggregationProviderClient
   {
 
-    Task<HttpResult<Transaction[], string>> QueryTransactions(bool forceAuthRefresh);
+    Task<HttpResult<Transaction[], string>> QueryTransactions();
+
+
+    // --- OAuth flow ----------------------------------------------------------
+    Task<HttpResult<OAuthCredentials, string>> Authenticate(string code);
+    Task<HttpResult<OAuthCredentials, string>> RefreshAuth();
 
   }
 

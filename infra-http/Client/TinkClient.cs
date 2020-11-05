@@ -2,8 +2,10 @@
 using domain_business.Core.Transaction;
 using domain_business.Core.Transaction.Providers;
 using domain_extensions.Http.Result;
+using domain_infra.Auth;
 using domain_infra.FixedValues;
 using infra_configuration.Clients;
+using infra_http.Auth.OAuth.Contracts;
 using infra_http.Client.Contracts;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
@@ -17,6 +19,7 @@ namespace infra_http.Client
 {
   // --- Type Aliases ----------------------------------------------------------
   using TransactionResponse = HttpResult<Transaction[], string>;
+  using OAuthResponse = HttpResult<OAuthCredentials, string>;
 
   // ---------------------------------------------------------------------------
 
@@ -27,6 +30,7 @@ namespace infra_http.Client
     private readonly ILogger<TinkClient> _logger;
     private readonly TinkSettings _settings;
     private readonly HttpClient _client;
+    private readonly IOAuthClient _oauth;
     private readonly IMapper _mapper;
     private readonly IMemoryCache _cache;
     #endregion services
@@ -36,10 +40,13 @@ namespace infra_http.Client
       ILogger<TinkClient> logger,
       HttpClient client,
       IOptions<TinkSettings> settings,
+      IOAuthClient oauth,
       IMapper mapper,
       IMemoryCache cache
     )
     {
+      _oauth = oauth;
+
       _client = client;
 
       _logger = logger;
@@ -51,39 +58,12 @@ namespace infra_http.Client
     }
     #endregion constructor
 
-    public async Task<TransactionResponse> QueryTransactions(bool forceAuthRefresh)
+    public async Task<TransactionResponse> QueryTransactions()
     {
       TransactionResponse result;
 
       var path = _settings.APIPath.SearchTransactions;
-
-      // -----------------------------------------------------------------------
-      // TEST SCAFFOLD
-      if (forceAuthRefresh)
-        _cache.Remove(TinkFV.ACCESS_TOKEN);
-
-      // -----------------------------------------------------------------------
-
-      // -----------------------------------------------------------------------
-      // TODO Move to a decorator.
-      /*
-      string accessToken = _cache.Get<string>(TinkFV.ACCESS_TOKEN);
-
-      if (string.IsNullOrEmpty(accessToken))
-      {
-        return TransactionResponse.FAIL(
-          HttpError<string>.FromRequest("Expired Tink credentials", System.Net.HttpStatusCode.Unauthorized));
-      }
-      */
-      // -----------------------------------------------------------------------
-
       var request = new HttpRequestMessage(HttpMethod.Get, path);
-
-      /*
-      request.Headers.Authorization = 
-        new AuthenticationHeaderValue("Bearer", accessToken);
-      */
-
 
       var searchResponse = await _client.SendAsync(request);
 
@@ -114,6 +94,14 @@ namespace infra_http.Client
       return result;
 
     }
+
+
+    // --- OAuth flow ----------------------------------------------------------
+    public async Task<OAuthResponse> Authenticate(string code)
+      => await _oauth.Authenticate(code);
+
+    public async Task<OAuthResponse> RefreshAuth()
+      => await _oauth.RefreshOAuth();
 
   }
 
