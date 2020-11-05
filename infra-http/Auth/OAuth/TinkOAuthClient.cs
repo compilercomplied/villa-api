@@ -2,7 +2,8 @@
 using domain_extensions.Http.Result;
 using domain_infra.Auth;
 using domain_infra.FixedValues;
-using http_infra.Auth.OAuth.Contracts;
+using infra_configuration.Clients;
+using infra_http.Auth.OAuth.Contracts;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -12,9 +13,8 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using villa_configuration.Clients;
 
-namespace http_infra.Auth.OAuth
+namespace infra_http.Auth.OAuth
 {
   // --- Type Aliases ----------------------------------------------------------
   using OAuthResponse = HttpResult<OAuthCredentials, string>;
@@ -25,10 +25,10 @@ namespace http_infra.Auth.OAuth
   {
 
     // TODO Move to an env-based config.
-    private static string ClientID = Environment.GetEnvironmentVariable("TINK_CLIENT_ID");
-    private static string ClientSecret = Environment.GetEnvironmentVariable("TINK_CLIENT_SECRET");
+    private static readonly string ClientID = Environment.GetEnvironmentVariable("TINK_CLIENT_ID");
+    private static readonly string ClientSecret = Environment.GetEnvironmentVariable("TINK_CLIENT_SECRET");
 
-    private static string[] Scopes = {
+    private static readonly string[] Scopes = {
       "accounts:read",
       "categories:read",
       "credentials:read",

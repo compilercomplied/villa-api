@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using http_infra.Client.Contracts;
+using infra_http.Client.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 

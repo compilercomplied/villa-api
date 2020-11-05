@@ -1,18 +1,18 @@
 using AutoMapper;
 using domain_mapping;
-using http_infra.Auth.OAuth;
-using http_infra.Auth.OAuth.Contracts;
-using http_infra.Client;
-using http_infra.Client.Contracts;
-using http_infra.Middleware;
-using http_infra.Middleware.Contracts;
+using infra_http.Auth.OAuth;
+using infra_http.Auth.OAuth.Contracts;
+using infra_http.Client;
+using infra_http.Client.Contracts;
+using infra_http.Middleware;
+using infra_http.Middleware.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using villa_configuration.Clients;
+using infra_configuration.Clients;
 
 namespace villa_api
 {

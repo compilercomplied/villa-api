@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using http_infra.Auth.OAuth.Contracts;
+using infra_http.Auth.OAuth.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 

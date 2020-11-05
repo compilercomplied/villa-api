@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace http_infra.Auth.OAuth.Contracts
+namespace infra_http.Auth.OAuth.Contracts
 {
   public interface IOAuthClient
   {

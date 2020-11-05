@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace http_infra.Client.Contracts
+namespace infra_http.Client.Contracts
 {
 
   public interface IAggregationProviderClient

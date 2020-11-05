@@ -5,11 +5,11 @@ VisualStudioVersion = 16.0.30309.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "villa-api", "villa-api\villa-api.csproj", "{96A829ED-38A8-4205-94B3-FEB2DE073ED4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "villa-http", "http-infra\villa-http.csproj", "{BE3F844E-901D-42DA-9510-341B601056DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "infra-http", "infra-http\infra-http.csproj", "{BE3F844E-901D-42DA-9510-341B601056DF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00 - infra", "00 - infra", "{3803181C-A106-4469-9105-EA2CBDB56568}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "villa-configuration", "villa-configuration\villa-configuration.csproj", "{7BDE3355-BFD1-47C8-97DA-05B1E511CCF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "infra-configuration", "infra-configuration\infra-configuration.csproj", "{7BDE3355-BFD1-47C8-97DA-05B1E511CCF4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - domain", "01 - domain", "{1829B31F-0C0D-465D-91D2-4399DD2DC730}"
 EndProject

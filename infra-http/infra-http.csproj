@@ -16,7 +16,7 @@
     <ProjectReference Include="..\domain-business\domain-business.csproj" />
     <ProjectReference Include="..\domain-extensions\domain-extensions.csproj" />
     <ProjectReference Include="..\domain-infra\domain-infra.csproj" />
-    <ProjectReference Include="..\villa-configuration\villa-configuration.csproj" />
+    <ProjectReference Include="..\infra-configuration\infra-configuration.csproj" />
   </ItemGroup>
 
 </Project>

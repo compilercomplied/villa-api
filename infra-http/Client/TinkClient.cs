@@ -2,23 +2,18 @@
 using domain_business.Core.Transaction;
 using domain_business.Core.Transaction.Providers;
 using domain_extensions.Http.Result;
-using domain_infra.Auth;
 using domain_infra.FixedValues;
-using http_infra.Client.Contracts;
+using infra_configuration.Clients;
+using infra_http.Client.Contracts;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
-using villa_configuration.Clients;
 
-namespace http_infra.Client
+namespace infra_http.Client
 {
   // --- Type Aliases ----------------------------------------------------------
   using TransactionResponse = HttpResult<Transaction[], string>;

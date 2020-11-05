@@ -15,8 +15,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\domain-mapping\domain-mapping.csproj" />
-    <ProjectReference Include="..\http-infra\villa-http.csproj" />
-    <ProjectReference Include="..\villa-configuration\villa-configuration.csproj" />
+    <ProjectReference Include="..\infra-configuration\infra-configuration.csproj" />
+    <ProjectReference Include="..\infra-http\infra-http.csproj" />
   </ItemGroup>
 
 
