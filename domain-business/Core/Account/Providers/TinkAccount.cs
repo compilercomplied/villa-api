@@ -11,11 +11,11 @@ namespace domain_business.Core.Account.Providers
   public partial class TinkAccountResponse
   { 
     [JsonProperty("accounts")]
-    public Account[] Accounts { get; set; }
+    public TinkAccount[] Accounts { get; set; }
   }
 
   // --- API Models ------------------------------------------------------------
-  public partial class Account
+  public partial class TinkAccount
   {
     [JsonProperty("accountExclusion")]
     public string AccountExclusion { get; set; }
@@ -96,7 +96,7 @@ namespace domain_business.Core.Account.Providers
     public string NextDayOfTermsChange { get; set; }
 
     [JsonProperty("numMonthsBound")]
-    public long NumMonthsBound { get; set; }
+    public long? NumMonthsBound { get; set; }
 
     [JsonProperty("type")]
     public string Type { get; set; }

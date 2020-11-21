@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>domain_service</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\dal-villa\dal-villa.csproj" />
+    <ProjectReference Include="..\infra-http\infra-http.csproj" />
+  </ItemGroup>
+
+</Project>

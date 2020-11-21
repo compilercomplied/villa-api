@@ -16,12 +16,20 @@ namespace domain_mapping.Profiles
 
       TinkMaps();
 
+      CreateMap<ProviderTransaction, TransactionEntity>()
+        .ForMember(dest => dest.TransactionID,
+          opt => opt.Ignore())
+        .ForMember(dest => dest.CategoryID,
+          opt => opt.Ignore())
+        .ForMember(dest => dest.AccountID,
+          opt => opt.Ignore());
+
     }
 
     void TinkMaps()
-    { 
+    {
 
-      CreateMap<TinkTransaction, Transaction>()
+      CreateMap<TinkTransaction, ProviderTransaction>()
         .ForMember(dest => dest.Amount,
           opt => opt.MapFrom(src => src.Amount))
         .ForMember(dest => dest.CategoryID,
@@ -36,6 +44,7 @@ namespace domain_mapping.Profiles
           opt => opt.MapFrom(src => src.AccountId))
         .ForMember(dest => dest.TransactionID,
           opt => opt.MapFrom(src => src.Id));
+
     }
 
   }

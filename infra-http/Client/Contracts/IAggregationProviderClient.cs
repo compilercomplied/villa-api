@@ -1,4 +1,7 @@
-﻿using domain_business.Core.Transaction;
+﻿using domain_business.Core.Account.Providers;
+using domain_business.Core.Category.Providers;
+using domain_business.Core.Transaction;
+using domain_business.Core.Transaction.Providers;
 using domain_extensions.Http.Result;
 using domain_infra.Auth;
 using System;
@@ -12,8 +15,9 @@ namespace infra_http.Client.Contracts
   public interface IAggregationProviderClient
   {
 
-    Task<HttpResult<Transaction[], string>> QueryTransactions();
-
+    Task<HttpResult<ProviderTransaction[], string>> QueryTransactions();
+    Task<HttpResult<ProviderCategory[], string>> ListCategories();
+    Task<HttpResult<ProviderAccount[], string>> ListAccounts();
 
     // --- OAuth flow ----------------------------------------------------------
     Task<HttpResult<OAuthCredentials, string>> Authenticate(string code);

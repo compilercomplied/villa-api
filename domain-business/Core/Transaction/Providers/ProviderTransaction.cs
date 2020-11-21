@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace domain_business.Core.Transaction
+namespace domain_business.Core.Transaction.Providers
 {
 
-  public class Transaction
+  public class ProviderTransaction
   {
 
     public string ProductID { get; set; }

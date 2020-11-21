@@ -14,7 +14,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\dal-villa\dal-villa.csproj" />
     <ProjectReference Include="..\domain-mapping\domain-mapping.csproj" />
+    <ProjectReference Include="..\domain-service\domain-service.csproj" />
     <ProjectReference Include="..\infra-configuration\infra-configuration.csproj" />
     <ProjectReference Include="..\infra-http\infra-http.csproj" />
   </ItemGroup>

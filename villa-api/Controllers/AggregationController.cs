@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using dal_villa.Context;
+using domain_service.Aggregation;
 using infra_http.Client.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,16 +18,19 @@ namespace villa_api.Controllers
 
     private readonly ILogger<AggregationController> _logger;
     private readonly IAggregationProviderClient _client;
+    private readonly AggregationService _service;
 
 
     public AggregationController(
       ILogger<AggregationController> logger,
-      IAggregationProviderClient aggregationProvider
+      IAggregationProviderClient aggregationProvider,
+      AggregationService service
     )
     {
 
       _logger = logger;
       _client = aggregationProvider;
+      _service = service;
 
     }
 
@@ -34,12 +39,14 @@ namespace villa_api.Controllers
     public async Task<IActionResult> Sync()
     {
 
+      await _service.Sync();
+
       return Ok(new { message = "WIP"});
 
     }
 
     [HttpGet]
-    [Route("oauth/refresh")]
+    [Route("auth/refresh")]
     public async Task<IActionResult> Refresh()
     {
 
@@ -51,7 +58,7 @@ namespace villa_api.Controllers
     }
 
     [HttpGet]
-    [Route("oauth/callback")]
+    [Route("auth/callback")]
     public async Task<IActionResult> Callback([FromQuery] string code)
     {
 

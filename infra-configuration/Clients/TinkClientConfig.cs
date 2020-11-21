@@ -11,8 +11,10 @@ namespace infra_configuration.Clients
 
   public class TinkPathSettings
   { 
-    public string SearchTransactions { get; set; }
     public string OAuthToken { get; set; }
+    public string ListAccounts { get; set; }
+    public string ListCategories { get; set; }
+    public string SearchTransactions { get; set; }
   }
 
 }

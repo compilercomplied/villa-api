@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using domain_business.Core.Account.Providers;
+using domain_business.Core.Category.Providers;
 using domain_business.Core.Transaction;
 using domain_business.Core.Transaction.Providers;
 using domain_extensions.Http.Result;
@@ -18,7 +20,9 @@ using System.Threading.Tasks;
 namespace infra_http.Client
 {
   // --- Type Aliases ----------------------------------------------------------
-  using TransactionResponse = HttpResult<Transaction[], string>;
+  using TransactionResponse = HttpResult<ProviderTransaction[], string>;
+  using AccountResponse = HttpResult<ProviderAccount[], string>;
+  using CategoryResponse = HttpResult<ProviderCategory[], string>;
   using OAuthResponse = HttpResult<OAuthCredentials, string>;
 
   // ---------------------------------------------------------------------------
@@ -75,7 +79,7 @@ namespace infra_http.Client
         var payload = JsonConvert.DeserializeObject<TinkTransactionResponse>(raw);
         var transactionResponse = payload.Results.Select(r => r.Transaction);
 
-        var transactions = _mapper.Map<Transaction[]>(transactionResponse);
+        var transactions = _mapper.Map<ProviderTransaction[]>(transactionResponse);
 
         result = TransactionResponse.OK(transactions);
 
@@ -95,6 +99,79 @@ namespace infra_http.Client
 
     }
 
+    public async Task<CategoryResponse> ListCategories()
+    {
+      CategoryResponse result;
+
+      var path = _settings.APIPath.ListCategories;
+      var request = new HttpRequestMessage(HttpMethod.Get, path);
+
+      var response = await _client.SendAsync(request);
+
+
+      if (response.IsSuccessStatusCode)
+      {
+
+        var raw = await response.Content.ReadAsStringAsync();
+        var payload = JsonConvert.DeserializeObject<TinkCategory[]>(raw);
+
+        var categories = _mapper.Map<ProviderCategory[]>(payload);
+
+        result = CategoryResponse.OK(categories);
+
+      }
+      else
+      {
+
+        var errorMessage = await response.Content.ReadAsStringAsync();
+
+        result = CategoryResponse.FAIL(
+          HttpError<string>.FromRequest(errorMessage, response.StatusCode)
+        );
+
+      }
+
+      return result;
+
+    }
+
+    public async Task<AccountResponse> ListAccounts()
+    { 
+      AccountResponse result;
+
+      var path = _settings.APIPath.ListAccounts;
+      var request = new HttpRequestMessage(HttpMethod.Get, path);
+
+      var searchResponse = await _client.SendAsync(request);
+
+
+      if (searchResponse.IsSuccessStatusCode)
+      {
+
+        var raw = await searchResponse.Content.ReadAsStringAsync();
+        var payload = JsonConvert
+          .DeserializeObject<TinkAccountResponse>(raw)?.Accounts 
+          ?? Enumerable.Empty<TinkAccount>();
+
+        var transactions = _mapper.Map<ProviderAccount[]>(payload);
+
+        result = AccountResponse.OK(transactions);
+
+      }
+      else
+      {
+
+        var errorMessage = await searchResponse.Content.ReadAsStringAsync();
+
+        result = AccountResponse.FAIL(
+          HttpError<string>.FromRequest(errorMessage, searchResponse.StatusCode)
+        );
+
+      }
+
+      return result;
+
+    }
 
     // --- OAuth flow ----------------------------------------------------------
     public async Task<OAuthResponse> Authenticate(string code)

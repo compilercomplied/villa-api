@@ -14,6 +14,9 @@ using infra_configuration.Clients;
 using infra_http.Middleware.Request;
 using infra_http.Middleware.Request.Contracts;
 using http_infra.Middleware.Response;
+using dal_villa.Context;
+using Microsoft.EntityFrameworkCore;
+using domain_service.Aggregation;
 
 namespace villa_api
 {
@@ -31,9 +34,16 @@ namespace villa_api
     {
 
       services.AddControllers();
+
+      services.AddDbContext<VillaContext>(opts =>
+      {
+        opts.UseNpgsql(Environment.GetEnvironmentVariable("PG_CONN"));
+      });
+
+
       services.AddAutoMapper(typeof(MappingConfiguration));
-      services.AddHttpClient();
       services.AddMemoryCache();
+      services.AddScoped<AggregationService>();
 
       ConfigureTinkServices(services);
 
@@ -55,6 +65,8 @@ namespace villa_api
       {
         endpoints.MapControllers();
       });
+
+
     }
 
     void ConfigureTinkServices(IServiceCollection services)
