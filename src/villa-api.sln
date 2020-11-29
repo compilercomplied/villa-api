@@ -23,16 +23,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "domain-mapping", "domain-ma
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 - deploy", "02 - deploy", "{6A22BA11-E13F-4830-8AAA-4773671CC8D0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "99 - external", "99 - external", "{7AE309A4-3F0F-46CD-B70C-0D0AA2C38022}"
-	ProjectSection(SolutionItems) = preProject
-		.gitignore = .gitignore
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - dal", "01 - dal", "{BF031574-771A-4D0B-827E-A122E3FF7565}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dal-villa", "dal-villa\dal-villa.csproj", "{87271A7D-F679-4E4F-BDE9-41B3B5EA921F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "domain-service", "domain-service\domain-service.csproj", "{3A7F2E95-B5D9-43B3-8BE5-7F50AAEFE24A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "domain-service", "domain-service\domain-service.csproj", "{3A7F2E95-B5D9-43B3-8BE5-7F50AAEFE24A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
