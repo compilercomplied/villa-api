@@ -3,6 +3,7 @@ using dal_villa.Context;
 using domain_business.Core.Account;
 using domain_business.Core.Category;
 using domain_business.Core.Transaction;
+using domain_business.Usecases.ProviderSync;
 using infra_http.Client.Contracts;
 using Microsoft.Extensions.Logging;
 using System;
@@ -41,14 +42,27 @@ namespace domain_service.Aggregation
     }
     #endregion constructor
 
-    public async Task Sync()
+    public async Task Sync(SyncRequest req)
     {
 
-      var accounts = await SyncAccounts();
-      var cats = await SyncCategories();
-      _context.SaveChanges();
+      CategoryEntity[] cats;
+      AccountEntity[] accounts;
 
-      await SyncTransactions(cats, accounts);
+      if (req.Init)
+      {
+        accounts = await SyncAccounts();
+        cats = await SyncCategories();
+        _context.SaveChanges();
+
+      }
+      else
+      {
+        accounts = _context.Accounts.ToArray();
+        cats = _context.Categories.ToArray();
+      }
+
+
+      await SyncTransactions(cats, accounts, req);
 
       await _context.SaveChangesAsync();
 
@@ -82,10 +96,10 @@ namespace domain_service.Aggregation
 
     }
 
-    async Task SyncTransactions(CategoryEntity[] cats, AccountEntity[] accounts)
+    async Task SyncTransactions(CategoryEntity[] cats, AccountEntity[] accounts, SyncRequest req)
     { 
 
-      var tranResponse = await _client.QueryTransactions();
+      var tranResponse = await _client.QueryTransactions(req);
       var tran = tranResponse.Unwrap();
 
       var tranResult = _mapper.Map<TransactionEntity[]>(tran);

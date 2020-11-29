@@ -3,6 +3,8 @@ using domain_business.Core.Account.Providers;
 using domain_business.Core.Category.Providers;
 using domain_business.Core.Transaction;
 using domain_business.Core.Transaction.Providers;
+using domain_business.Usecases.ProviderSync;
+using domain_extensions.Extensions;
 using domain_extensions.Http.Result;
 using domain_infra.Auth;
 using domain_infra.FixedValues;
@@ -13,8 +15,10 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using System;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace infra_http.Client
@@ -62,12 +66,24 @@ namespace infra_http.Client
     }
     #endregion constructor
 
-    public async Task<TransactionResponse> QueryTransactions()
+    public async Task<TransactionResponse> QueryTransactions(SyncRequest bodyArgs)
     {
       TransactionResponse result;
 
+      var body = JsonConvert.SerializeObject(new
+      {
+        queryString = bodyArgs.Period.GetDisplayName().ToLowerInvariant(),
+      });
+
+      _logger.LogTrace($"Tink request with body: {body}");
+
+
       var path = _settings.APIPath.SearchTransactions;
-      var request = new HttpRequestMessage(HttpMethod.Get, path);
+      var request = new HttpRequestMessage(HttpMethod.Get, path)
+      {
+        Content = new StringContent(body, Encoding.UTF8, "application/json")
+      };
+
 
       var searchResponse = await _client.SendAsync(request);
 
@@ -95,6 +111,7 @@ namespace infra_http.Client
 
       }
 
+      throw new System.Exception("debug");
       return result;
 
     }
