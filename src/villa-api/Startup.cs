@@ -17,6 +17,7 @@ using http_infra.Middleware.Response;
 using dal_villa.Context;
 using Microsoft.EntityFrameworkCore;
 using domain_service.Aggregation;
+using domain_service.Dashboard;
 
 namespace villa_api
 {
@@ -44,6 +45,7 @@ namespace villa_api
       services.AddAutoMapper(typeof(MappingConfiguration));
       services.AddMemoryCache();
       services.AddScoped<AggregationService>();
+      services.AddScoped<DashboardService>();
 
       ConfigureTinkServices(services);
 

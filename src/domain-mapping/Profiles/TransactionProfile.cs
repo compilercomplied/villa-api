@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using domain_business.Core.Transaction;
 using domain_business.Core.Transaction.Providers;
+using domain_business.Usecases.Dashboard;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,6 +24,12 @@ namespace domain_mapping.Profiles
           opt => opt.Ignore())
         .ForMember(dest => dest.AccountID,
           opt => opt.Ignore());
+
+      CreateMap<TransactionEntity, QueryListTransaction>()
+        .ForMember(dest => dest.ID,
+          opt => opt.MapFrom(src => src.TransactionID))
+        .ForMember(dest => dest.Category,
+          opt => opt.MapFrom(src => src.CategoryID));
 
     }
 
