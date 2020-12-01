@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "domain-extensions", "domain
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "domain-mapping", "domain-mapping\domain-mapping.csproj", "{08CD8451-BAE5-4FC5-8270-F8144A38B04F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 - deploy", "02 - deploy", "{6A22BA11-E13F-4830-8AAA-4773671CC8D0}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "99 - deploy", "99 - deploy", "{6A22BA11-E13F-4830-8AAA-4773671CC8D0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - dal", "01 - dal", "{BF031574-771A-4D0B-827E-A122E3FF7565}"
 EndProject
