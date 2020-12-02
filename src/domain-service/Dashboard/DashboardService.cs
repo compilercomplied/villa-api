@@ -46,6 +46,15 @@ namespace domain_service.Dashboard
 
     }
 
+    public Result<QueryListTransaction[]> QueryTransactions(TransactionListingRequest req)
+    {
+      var tran = _context.Transactions.Skip(req.SkipCount).Take(10).AsEnumerable();
+      var dashboardList = _mapper.Map<IEnumerable<QueryListTransaction>>(tran);
+
+      return Result<QueryListTransaction[]>.OK(dashboardList.ToArray());
+
+    }
+
   }
 
 }

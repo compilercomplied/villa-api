@@ -23,6 +23,9 @@ namespace villa_api
 {
   public class Startup
   {
+
+    static readonly string WEB_URI = "http://localhost:4000";
+
     public Startup(IConfiguration configuration)
     {
       Configuration = configuration;
@@ -35,6 +38,16 @@ namespace villa_api
     {
 
       services.AddControllers();
+
+      services.AddCors(opts =>
+      {
+        opts.AddDefaultPolicy(builder =>
+          {
+            // TODO narrow down CORS
+            builder.WithOrigins("*");
+          });
+      });
+
 
       services.AddDbContext<VillaContext>(opts =>
       {
@@ -59,9 +72,12 @@ namespace villa_api
 
       app.UseHttpsRedirection();
 
+      // These are ordered -----------------------------------------------------
+      // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-5.0#middleware-order
       app.UseRouting();
-
+      app.UseCors( opts => opts.WithOrigins(WEB_URI).AllowAnyMethod().AllowAnyHeader() );
       app.UseAuthorization();
+      // -----------------------------------------------------------------------
 
       app.UseEndpoints(endpoints =>
       {

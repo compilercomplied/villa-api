@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using domain_business.Usecases.Dashboard;
 using domain_service.Dashboard;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +36,17 @@ namespace villa_api.Controllers
     {
 
       var result = _service.BaseData();
+
+      return Ok(result.Unwrap());
+
+    }
+
+    [HttpPost]
+    [Route("transactions")]
+    public IActionResult TransactionListing([FromBody] TransactionListingRequest req)
+    {
+
+      var result = _service.QueryTransactions(req);
 
       return Ok(result.Unwrap());
 
