@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dal-villa", "dal-villa\dal-
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "domain-service", "domain-service\domain-service.csproj", "{3A7F2E95-B5D9-43B3-8BE5-7F50AAEFE24A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "domain-constants", "domain-constants\domain-constants.csproj", "{F1B48E86-F72D-4F70-BC67-D0E3608D7CF8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{3A7F2E95-B5D9-43B3-8BE5-7F50AAEFE24A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A7F2E95-B5D9-43B3-8BE5-7F50AAEFE24A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A7F2E95-B5D9-43B3-8BE5-7F50AAEFE24A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1B48E86-F72D-4F70-BC67-D0E3608D7CF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1B48E86-F72D-4F70-BC67-D0E3608D7CF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1B48E86-F72D-4F70-BC67-D0E3608D7CF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1B48E86-F72D-4F70-BC67-D0E3608D7CF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,6 +91,7 @@ Global
 		{08CD8451-BAE5-4FC5-8270-F8144A38B04F} = {1829B31F-0C0D-465D-91D2-4399DD2DC730}
 		{87271A7D-F679-4E4F-BDE9-41B3B5EA921F} = {BF031574-771A-4D0B-827E-A122E3FF7565}
 		{3A7F2E95-B5D9-43B3-8BE5-7F50AAEFE24A} = {1829B31F-0C0D-465D-91D2-4399DD2DC730}
+		{F1B48E86-F72D-4F70-BC67-D0E3608D7CF8} = {1829B31F-0C0D-465D-91D2-4399DD2DC730}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C9A1153D-72E1-48EB-AF7A-C3DAC5D6E2BC}

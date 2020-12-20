@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using dal_villa.Context;
 using domain_business.Usecases.ProviderSync;
 using domain_service.Aggregation;
+using http_infra.Middleware.Authorization;
 using infra_http.Client.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ namespace villa_api.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]
+  [GoogleAuthorize]
   public class AggregationController : ControllerBase
   {
 

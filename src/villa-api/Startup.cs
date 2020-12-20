@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using System;
 using infra_configuration.Clients;
 using infra_http.Middleware.Request;
@@ -18,6 +17,7 @@ using dal_villa.Context;
 using Microsoft.EntityFrameworkCore;
 using domain_service.Aggregation;
 using domain_service.Dashboard;
+using domain_constants.Env;
 
 namespace villa_api
 {
@@ -33,7 +33,6 @@ namespace villa_api
 
     public IConfiguration Configuration { get; }
 
-
     public void ConfigureServices(IServiceCollection services)
     {
 
@@ -48,10 +47,9 @@ namespace villa_api
           });
       });
 
-
       services.AddDbContext<VillaContext>(opts =>
       {
-        opts.UseNpgsql(Environment.GetEnvironmentVariable("PG_CONN"));
+        opts.UseNpgsql(Environment.GetEnvironmentVariable(PgEnv.CONN));
       });
 
 
@@ -88,7 +86,7 @@ namespace villa_api
     }
 
     void ConfigureTinkServices(IServiceCollection services)
-    { 
+    {
 
       // TODO move to a client based config @villa-configuration
       services.AddHttpClient<IOAuthClient, TinkOAuthClient>(client =>

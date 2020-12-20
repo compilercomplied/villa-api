@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using domain_business.Usecases.Dashboard;
+﻿using domain_business.Usecases.Dashboard;
 using domain_service.Dashboard;
-using Microsoft.AspNetCore.Http;
+using http_infra.Middleware.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -13,6 +9,7 @@ namespace villa_api.Controllers
 
   [Route("api/[controller]")]
   [ApiController]
+  [GoogleAuthorize]
   public class DashboardController : ControllerBase
   {
 

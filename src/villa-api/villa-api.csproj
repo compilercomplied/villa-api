@@ -10,11 +10,13 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
+    <PackageReference Include="Google.Apis.Auth" Version="1.49.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\dal-villa\dal-villa.csproj" />
+    <ProjectReference Include="..\domain-constants\domain-constants.csproj" />
     <ProjectReference Include="..\domain-mapping\domain-mapping.csproj" />
     <ProjectReference Include="..\domain-service\domain-service.csproj" />
     <ProjectReference Include="..\infra-configuration\infra-configuration.csproj" />
