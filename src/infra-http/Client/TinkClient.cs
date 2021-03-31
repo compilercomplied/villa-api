@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using domain_business.Core.Account.Providers;
+using domain_business.Core.Product.Providers;
 using domain_business.Core.Category.Providers;
 using domain_business.Core.Transaction;
 using domain_business.Core.Transaction.Providers;
@@ -111,7 +111,6 @@ namespace infra_http.Client
 
       }
 
-      throw new System.Exception("debug");
       return result;
 
     }
@@ -191,8 +190,8 @@ namespace infra_http.Client
     }
 
     // --- OAuth flow ----------------------------------------------------------
-    public async Task<OAuthResponse> Authenticate(string code)
-      => await _oauth.Authenticate(code);
+    public async Task<OAuthResponse> Authenticate(string code, string state)
+      => await _oauth.Authenticate(code, state);
 
     public async Task<OAuthResponse> RefreshAuth()
       => await _oauth.RefreshOAuth();

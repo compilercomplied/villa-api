@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
+#nullable disable
 namespace domain_extensions.Core.Result
 {
   public class Result<T>
@@ -18,8 +19,9 @@ namespace domain_extensions.Core.Result
 
     public bool IsSuccess => string.IsNullOrEmpty(Error);
 
+    // TODO rsx default error
     public T Unwrap() => IsSuccess 
-      ? Value : throw new OperationException(new Error(Error));
+      ? Value : throw new OperationException(new Error(Error ?? string.Empty));
 
 
     // --- Builders ------------------------------------------------------------

@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace domain_business.Core.Account.Providers
+#nullable disable
+namespace domain_business.Core.Product.Providers
 {
 
   public class ProviderAccount

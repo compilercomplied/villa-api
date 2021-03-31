@@ -15,10 +15,13 @@ namespace infra_http.Middleware.Request
   public class TinkOAuthHandler : IExternalOAuthHandler
   {
 
+    #region services
     private readonly ILogger<TinkOAuthHandler> _logger;
     private readonly IMemoryCache _cache;
     private readonly IOAuthClient _oauth;
+    #endregion services
 
+    #region constructor
     public TinkOAuthHandler(
       ILogger<TinkOAuthHandler> logger, 
       IMemoryCache cache,
@@ -32,10 +35,12 @@ namespace infra_http.Middleware.Request
       _oauth = oauth;
 
     }
+    #endregion constructor
 
     protected override async Task<HttpResponseMessage> SendAsync(
       HttpRequestMessage request,
-      CancellationToken cancellationToken)
+      CancellationToken cancellationToken
+    )
     {
 
       var accessToken = _cache.Get<string>(TinkFV.ACCESS_TOKEN);

@@ -29,7 +29,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dal-villa", "dal-villa\dal-
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "domain-service", "domain-service\domain-service.csproj", "{3A7F2E95-B5D9-43B3-8BE5-7F50AAEFE24A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "domain-constants", "domain-constants\domain-constants.csproj", "{F1B48E86-F72D-4F70-BC67-D0E3608D7CF8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "domain-constants", "domain-constants\domain-constants.csproj", "{F1B48E86-F72D-4F70-BC67-D0E3608D7CF8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5081C64E-D55B-4FF5-BF32-81E74F529C51}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

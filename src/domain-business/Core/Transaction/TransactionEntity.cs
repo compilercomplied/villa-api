@@ -1,4 +1,4 @@
-﻿using domain_business.Core.Account;
+﻿using domain_business.Core.Product;
 using domain_business.Core.Category;
 using System;
 using System.Collections.Generic;
@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
+#nullable disable
 namespace domain_business.Core.Transaction
 {
   [Table("Transactions")]
@@ -24,8 +25,8 @@ namespace domain_business.Core.Transaction
     public int CategoryID { get; set; }
     public CategoryEntity Category { get; set; }
 
-    public long AccountID { get; set; }
-    public AccountEntity Account { get; set; }
+    public long ProductID { get; set; }
+    public ProductEntity Product { get; set; }
 
   }
 }

@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace domain_business.Core.Account
+#nullable disable
+namespace domain_business.Core.Product
 {
 
-  [Table("Accounts")]
-  public class AccountEntity
+  [Table("Products")]
+  public class ProductEntity
   {
 
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public long AccountID { get; set; }
+    public long InternalProductID { get; set; }
     public string Description { get; set; }
-    public string Number { get; set; }
+    public string ProductID { get; set; }
     public string ProviderID { get; set; }
 
-    public List<TransactionEntity> Transactions { get; set; }
+    public IList<TransactionEntity> Transactions { get; set; }
 
   }
 

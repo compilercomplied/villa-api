@@ -22,7 +22,7 @@ namespace domain_mapping.Profiles
           opt => opt.Ignore())
         .ForMember(dest => dest.CategoryID,
           opt => opt.Ignore())
-        .ForMember(dest => dest.AccountID,
+        .ForMember(dest => dest.ProductID,
           opt => opt.Ignore());
 
       CreateMap<TransactionEntity, QueryListTransaction>()

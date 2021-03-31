@@ -25,8 +25,10 @@ namespace infra_http.Auth.OAuth
   {
 
     // TODO Move to an env-based config.
-    private static readonly string ClientID = Environment.GetEnvironmentVariable("TINK_CLIENT_ID");
-    private static readonly string ClientSecret = Environment.GetEnvironmentVariable("TINK_CLIENT_SECRET");
+    private static readonly string ClientID = Environment
+      .GetEnvironmentVariable("TINK_CLIENT_ID") ?? string.Empty;
+    private static readonly string ClientSecret = Environment
+      .GetEnvironmentVariable("TINK_CLIENT_SECRET") ?? string.Empty;
 
     private static readonly string[] Scopes = {
       "accounts:read",
@@ -59,7 +61,7 @@ namespace infra_http.Auth.OAuth
       IOptions<TinkSettings> settings,
       HttpClient client,
       IMemoryCache cache)
-    { 
+    {
       _client = client;
 
       _logger = logger;
@@ -71,7 +73,7 @@ namespace infra_http.Auth.OAuth
 
     // -------------------------------------------------------------------------
 
-    public async Task<OAuthResponse> Authenticate(string code)
+    public async Task<OAuthResponse> Authenticate(string code, string state)
     {
       OAuthResponse result;
 
@@ -114,10 +116,10 @@ namespace infra_http.Auth.OAuth
     }
 
     HttpContent BuildOAuthBody(string code)
-    { 
+    {
 
       var body = new List<KeyValuePair<string, string>>
-      { 
+      {
         new KeyValuePair<string, string>("code", code),
         new KeyValuePair<string, string>("client_id", ClientID),
         new KeyValuePair<string, string>("client_secret", ClientSecret),
@@ -152,7 +154,7 @@ namespace infra_http.Auth.OAuth
         var credsRaw = await httpResponse.Content.ReadAsStringAsync();
         var creds = JsonConvert.DeserializeObject<OAuthCredentials>(credsRaw);
 
-        CacheCredentials(creds);
+        CacheCredentials(creds);  // TODO: XXX
 
         result = OAuthResponse.OK(creds);
 
@@ -173,14 +175,14 @@ namespace infra_http.Auth.OAuth
     }
 
     HttpContent BuildOAuthRefreshBody(string refreshToken)
-    { 
+    {
 
-      var body = new List<KeyValuePair<string, string>>
-      { 
-        new KeyValuePair<string, string>("refresh_token", refreshToken),
-        new KeyValuePair<string, string>("client_id", ClientID),
-        new KeyValuePair<string, string>("client_secret", ClientSecret),
-        new KeyValuePair<string, string>("grant_type", "refresh_token"),
+      var body = new List<KeyValuePair<string, string?>>
+      {
+        new KeyValuePair<string, string?>("refresh_token", refreshToken),
+        new KeyValuePair<string, string?>("client_id", ClientID),
+        new KeyValuePair<string, string?>("client_secret", ClientSecret),
+        new KeyValuePair<string, string?>("grant_type", "refresh_token"),
       };
 
       return new FormUrlEncodedContent(body);

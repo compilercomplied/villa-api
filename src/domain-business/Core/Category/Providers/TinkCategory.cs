@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+#nullable disable
 namespace domain_business.Core.Category.Providers
 {
   public class TinkCategory

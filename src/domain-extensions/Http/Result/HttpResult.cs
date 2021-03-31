@@ -2,6 +2,7 @@
 using domain_extensions.Core.Result;
 using System.Net;
 
+#nullable disable
 namespace domain_extensions.Http.Result
 {
   public class HttpResult<T, U>

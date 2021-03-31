@@ -23,6 +23,9 @@ namespace domain_extensions.Core.Result
     { 
     }
 
+    public static OperationException From(string e)
+      => new OperationException(new Error(e));
+
   }
 
 }

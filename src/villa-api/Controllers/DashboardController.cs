@@ -1,22 +1,25 @@
 ﻿using domain_business.Usecases.Dashboard;
 using domain_service.Dashboard;
-using http_infra.Middleware.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Net.Http.Headers;
 
 namespace villa_api.Controllers
 {
 
   [Route("api/[controller]")]
   [ApiController]
-  [GoogleAuthorize]
-  public class DashboardController : ControllerBase
+  [Authorize]
+  public class DashboardController : ABCController
   {
 
+    #region ioc
     private readonly ILogger<AggregationController> _logger;
     private readonly DashboardService _service;
+    #endregion ioc
 
-
+    #region constructor
     public DashboardController(
       ILogger<AggregationController> logger,
       DashboardService service
@@ -27,12 +30,15 @@ namespace villa_api.Controllers
       _service = service;
 
     }
+    #endregion constructor
+
 
     [HttpGet]
     public IActionResult BaseData()
     {
 
-      var result = _service.BaseData();
+      var user = BuildUser();
+      var result = _service.BaseData(user);
 
       return Ok(result.Unwrap());
 

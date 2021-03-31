@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using dal_villa.Context;
 using domain_business.Usecases.ProviderSync;
 using domain_service.Aggregation;
-using http_infra.Middleware.Authorization;
 using infra_http.Client.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,8 +14,7 @@ namespace villa_api.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]
-  [GoogleAuthorize]
-  public class AggregationController : ControllerBase
+  public class AggregationController : ABCController
   {
 
     private readonly ILogger<AggregationController> _logger;
@@ -42,14 +40,13 @@ namespace villa_api.Controllers
     public async Task<IActionResult> Sync([FromBody]SyncRequest req)
     {
 
-
-      await _service.Sync(req ?? new SyncRequest{ });
+      await _service.Sync(req ?? new SyncRequest { });
 
       return Ok(new { message = "WIP"});
 
     }
 
-    [HttpGet]
+    [HttpPut]
     [Route("auth/refresh")]
     public async Task<IActionResult> Refresh()
     {
@@ -63,10 +60,10 @@ namespace villa_api.Controllers
 
     [HttpGet]
     [Route("auth/callback")]
-    public async Task<IActionResult> Callback([FromQuery] string code)
+    public async Task<IActionResult> Callback([FromQuery] string code, [FromQuery] string state)
     {
 
-      var credResponse = await _client.Authenticate(code);
+      var credResponse = await _client.Authenticate(code, state);
       var creds = credResponse.Unwrap();
 
       return Ok(creds);

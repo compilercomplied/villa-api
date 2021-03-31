@@ -1,8 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>domain_mapping</RootNamespace>
+    <WarningsAsErrors>CS8600;CS8602;CS8603</WarningsAsErrors>
+    <nullable>enable</nullable>
   </PropertyGroup>
 
   <ItemGroup>

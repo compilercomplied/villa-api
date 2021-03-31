@@ -1,4 +1,4 @@
-﻿using domain_business.Core.Account.Providers;
+﻿using domain_business.Core.Product.Providers;
 using domain_business.Core.Category.Providers;
 using domain_business.Core.Transaction;
 using domain_business.Core.Transaction.Providers;
@@ -21,7 +21,7 @@ namespace infra_http.Client.Contracts
     Task<HttpResult<ProviderAccount[], string>> ListAccounts();
 
     // --- OAuth flow ----------------------------------------------------------
-    Task<HttpResult<OAuthCredentials, string>> Authenticate(string code);
+    Task<HttpResult<OAuthCredentials, string>> Authenticate(string code, string state);
     Task<HttpResult<OAuthCredentials, string>> RefreshAuth();
 
   }

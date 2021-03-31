@@ -18,6 +18,12 @@ using Microsoft.EntityFrameworkCore;
 using domain_service.Aggregation;
 using domain_service.Dashboard;
 using domain_constants.Env;
+using domain_service.User;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using System.Security.Cryptography.X509Certificates;
+using System.Collections.Generic;
 
 namespace villa_api
 {
@@ -55,8 +61,32 @@ namespace villa_api
 
       services.AddAutoMapper(typeof(MappingConfiguration));
       services.AddMemoryCache();
-      services.AddScoped<AggregationService>();
-      services.AddScoped<DashboardService>();
+      services.AddTransient<AggregationService>();
+      services.AddTransient<DashboardService>();
+      services.AddTransient<UserService>();
+
+      var cert = new X509Certificate2(@"A:\gdariodev.pem");
+      var key = new X509SecurityKey(cert);
+      services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(opts =>
+        {
+
+          // opts.Authority  = Configuration["Auht0:Domain"];
+          opts.Authority  = @"https://gdariodev.eu.auth0.com/";
+          //opts.Audience   = Configuration["Auht0:Audience"];
+          opts.Audience   = "pfm.gdario.dev";
+
+          opts.TokenValidationParameters = new TokenValidationParameters
+          {
+            NameClaimType = ClaimTypes.NameIdentifier,
+            IssuerSigningKey = key,
+            ValidIssuer = @"https://gdariodev.eu.auth0.com/",
+            ValidAudiences = new List<string> 
+            { 
+"pfm.gdario.dev"
+            },
+          };
+        });
 
       ConfigureTinkServices(services);
 
@@ -74,6 +104,7 @@ namespace villa_api
       // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-5.0#middleware-order
       app.UseRouting();
       app.UseCors( opts => opts.WithOrigins(WEB_URI).AllowAnyMethod().AllowAnyHeader() );
+      app.UseAuthentication();
       app.UseAuthorization();
       // -----------------------------------------------------------------------
 
@@ -82,7 +113,14 @@ namespace villa_api
         endpoints.MapControllers();
       });
 
+      /*
+      using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+      {
+        var ctxt = serviceScope.ServiceProvider.GetRequiredService<VillaContext>();
+        ctxt.Database.EnsureCreated();
+      }
 
+      */
     }
 
     void ConfigureTinkServices(IServiceCollection services)

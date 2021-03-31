@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using domain_business.Core.Account;
-using domain_business.Core.Account.Providers;
+using domain_business.Core.Product;
+using domain_business.Core.Product.Providers;
 
 namespace domain_mapping.Profiles
 {
@@ -11,8 +11,8 @@ namespace domain_mapping.Profiles
 
       TinkMaps();
 
-      CreateMap<ProviderAccount, AccountEntity>();
-      CreateMap<AccountEntity, ProviderAccount>();
+      CreateMap<ProviderAccount, ProductEntity>();
+      CreateMap<ProductEntity, ProviderAccount>();
 
     }
 

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using dal_villa.Context;
-using domain_business.Core.Account;
+using domain_business.Core.Product;
 using domain_business.Core.Category;
 using domain_business.Core.Transaction;
 using domain_business.Usecases.ProviderSync;
@@ -46,7 +46,7 @@ namespace domain_service.Aggregation
     {
 
       CategoryEntity[] cats;
-      AccountEntity[] accounts;
+      ProductEntity[] accounts;
 
       if (req.Init)
       {
@@ -70,13 +70,13 @@ namespace domain_service.Aggregation
 
     #region sync aux
 
-    async Task<AccountEntity[]> SyncAccounts()
+    async Task<ProductEntity[]> SyncAccounts()
     {
 
       var accResponse = await _client.ListAccounts();
       var acc = accResponse.Unwrap();
 
-      var mapped = _mapper.Map<AccountEntity[]>(acc);
+      var mapped = _mapper.Map<ProductEntity[]>(acc);
 
       await _context.Accounts.AddRangeAsync(mapped);
 
@@ -96,7 +96,11 @@ namespace domain_service.Aggregation
 
     }
 
-    async Task SyncTransactions(CategoryEntity[] cats, AccountEntity[] accounts, SyncRequest req)
+    async Task SyncTransactions(
+      CategoryEntity[] cats,
+      ProductEntity[] products,
+      SyncRequest req
+    )
     { 
 
       var tranResponse = await _client.QueryTransactions(req);
@@ -111,12 +115,12 @@ namespace domain_service.Aggregation
         (tran, cat) => new { tran, cat }
       )
       .Join(
-        accounts.AsEnumerable(),
+        products.AsEnumerable(),
         query => query.tran.ProductID,
         acc => acc.ProviderID,
-        (query, acc) => new TransactionEntity
+        (query, prod) => new TransactionEntity
         { 
-          AccountID = acc.AccountID,
+          ProductID = prod.InternalProductID,
           Amount = query.tran.Amount,
           CategoryID = query.cat.CategoryID,
           Date = query.tran.Date,
