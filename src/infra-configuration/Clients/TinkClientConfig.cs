@@ -15,6 +15,7 @@ namespace infra_configuration.Clients
     public string? ListAccounts { get; set; }
     public string? ListCategories { get; set; }
     public string? SearchTransactions { get; set; }
+    public string? GetUserProfile { get; set; }
   }
 
 }

@@ -23,7 +23,7 @@ namespace dal_villa.Context
         modelBuilder.Entity<UserEntity>();
     }
 
-    public DbSet<ProductEntity> Accounts { get; set; }
+    public DbSet<ProductEntity> Products { get; set; }
     public DbSet<TransactionEntity> Transactions { get; set; }
     public DbSet<CategoryEntity> Categories { get; set; }
     public DbSet<UserEntity> Users { get; set; }

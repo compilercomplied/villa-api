@@ -24,10 +24,10 @@ using System.Threading.Tasks;
 namespace infra_http.Client
 {
   // --- Type Aliases ----------------------------------------------------------
-  using TransactionResponse = HttpResult<ProviderTransaction[], string>;
-  using AccountResponse = HttpResult<ProviderAccount[], string>;
-  using CategoryResponse = HttpResult<ProviderCategory[], string>;
-  using OAuthResponse = HttpResult<OAuthCredentials, string>;
+  using TransactionResponse   = HttpResult<ProviderTransaction[], string>;
+  using AccountResponse       = HttpResult<ProviderAccount[], string>;
+  using CategoryListResponse  = HttpResult<ProviderCategory[], string>;
+  using OAuthResponse         = HttpResult<OAuthCredentials, string>;
 
   // ---------------------------------------------------------------------------
 
@@ -66,17 +66,24 @@ namespace infra_http.Client
     }
     #endregion constructor
 
-    public async Task<TransactionResponse> QueryTransactions(SyncRequest bodyArgs)
+    public async Task<TransactionResponse> QueryTransactions(DataSyncRequest bodyArgs)
     {
       TransactionResponse result;
 
+
       var body = JsonConvert.SerializeObject(new
       {
-        queryString = bodyArgs.Period.GetDisplayName().ToLowerInvariant(),
+
+        startDate = new DateTimeOffset(bodyArgs.From.ToUniversalTime())
+          .ToUnixTimeMilliseconds(),
+
+        endDate = new DateTimeOffset(DateTime.Today.AddDays(1).ToUniversalTime())
+          .ToUnixTimeMilliseconds(),
+
+          sort = "DATE",
+          order = "ASC",
+
       });
-
-      _logger.LogTrace($"Tink request with body: {body}");
-
 
       var path = _settings.APIPath.SearchTransactions;
       var request = new HttpRequestMessage(HttpMethod.Get, path)
@@ -115,9 +122,9 @@ namespace infra_http.Client
 
     }
 
-    public async Task<CategoryResponse> ListCategories()
+    public async Task<CategoryListResponse> ListCategories()
     {
-      CategoryResponse result;
+      CategoryListResponse result;
 
       var path = _settings.APIPath.ListCategories;
       var request = new HttpRequestMessage(HttpMethod.Get, path);
@@ -128,12 +135,15 @@ namespace infra_http.Client
       if (response.IsSuccessStatusCode)
       {
 
-        var raw = await response.Content.ReadAsStringAsync();
+        string raw = await response.Content.ReadAsStringAsync();
         var payload = JsonConvert.DeserializeObject<TinkCategory[]>(raw);
 
-        var categories = _mapper.Map<ProviderCategory[]>(payload);
+        var mappedCategories = _mapper.Map<ProviderCategory[]>(payload)
+          // Remove expenses/income/transfer meta categories
+          .Where(cat => !string.IsNullOrEmpty(cat.GroupID))
+          .ToArray();
 
-        result = CategoryResponse.OK(categories);
+        result = CategoryListResponse.OK(mappedCategories);
 
       }
       else
@@ -141,7 +151,7 @@ namespace infra_http.Client
 
         var errorMessage = await response.Content.ReadAsStringAsync();
 
-        result = CategoryResponse.FAIL(
+        result = CategoryListResponse.FAIL(
           HttpError<string>.FromRequest(errorMessage, response.StatusCode)
         );
 
@@ -190,8 +200,8 @@ namespace infra_http.Client
     }
 
     // --- OAuth flow ----------------------------------------------------------
-    public async Task<OAuthResponse> Authenticate(string code, string state)
-      => await _oauth.Authenticate(code, state);
+    public async Task<OAuthResponse> Authenticate(string code)
+      => await _oauth.Authenticate(code);
 
     public async Task<OAuthResponse> RefreshAuth()
       => await _oauth.RefreshOAuth();

@@ -19,8 +19,7 @@ namespace domain_business.Core.Category
     public bool Hidden { get; set; }
     public string ProviderID { get; set; }
 
-    public long TransactionID { get; set; }
-    public List<TransactionEntity> Transactions { get; set; }
+    public IList<TransactionEntity> Transactions { get; set; }
 
   }
 

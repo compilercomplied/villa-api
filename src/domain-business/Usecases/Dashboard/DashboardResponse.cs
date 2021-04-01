@@ -9,14 +9,14 @@ namespace domain_business.Usecases.Dashboard
   public class DashboardResponse
   {
     [JsonProperty(PropertyName = "products")]
-    public IEnumerable<DashboardProducts> Products { get; set; }
+    public IEnumerable<DashboardProduct> Products { get; set; }
 
     [JsonProperty(PropertyName = "transactions")]
     public IEnumerable<QueryListTransaction> Transactions { get; set; }
 
   }
 
-  public class DashboardProducts
+  public class DashboardProduct
   {
 
     [JsonProperty(PropertyName = "id")]

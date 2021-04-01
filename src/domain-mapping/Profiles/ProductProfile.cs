@@ -1,18 +1,20 @@
 ﻿using AutoMapper;
 using domain_business.Core.Product;
 using domain_business.Core.Product.Providers;
+using domain_business.Usecases.Dashboard;
 
 namespace domain_mapping.Profiles
 {
-  public class AccountProfile : Profile
+  public class ProductProfile : Profile
   {
-    public AccountProfile()
+    public ProductProfile()
     { 
 
       TinkMaps();
 
       CreateMap<ProviderAccount, ProductEntity>();
       CreateMap<ProductEntity, ProviderAccount>();
+      CreateMap<ProductEntity, DashboardProduct>();
 
     }
 

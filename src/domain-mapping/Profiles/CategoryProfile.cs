@@ -19,18 +19,22 @@ namespace domain_mapping.Profiles
       CreateMap<ProviderCategory, CategoryEntity>()
         .ForMember(dest => dest.CategoryID,
           opt => opt.Ignore())
+        .ForMember(dest => dest.Name,
+          opt => opt.MapFrom(src => src.Name))
         .ForMember(dest => dest.ProviderID,
-          opt => opt.MapFrom(src => src.CategoryID));
+          opt => opt.MapFrom(src => src.ProviderCategoryID));
 
     }
 
     void TinkMaps()
     {
       CreateMap<TinkCategory, ProviderCategory>()
-        .ForMember(dest => dest.CategoryID,
+        .ForMember(dest => dest.ProviderCategoryID,
           opt => opt.MapFrom(src => src.Id))
+        .ForMember(dest => dest.GroupID,
+          opt => opt.MapFrom(src => src.Parent))
         .ForMember(dest => dest.Name,
-          opt => opt.MapFrom(src => src.PrimaryName));
+          opt => opt.MapFrom(src => src.SecondaryName ?? src.PrimaryName));
     }
 
   }

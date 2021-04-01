@@ -18,8 +18,8 @@ namespace domain_mapping.Profiles
       TinkMaps();
 
       CreateMap<ProviderTransaction, TransactionEntity>()
-        .ForMember(dest => dest.TransactionID,
-          opt => opt.Ignore())
+        .ForMember(dest => dest.ProviderTransactionID,
+          opt => opt.MapFrom(src => src.TransactionID))
         .ForMember(dest => dest.CategoryID,
           opt => opt.Ignore())
         .ForMember(dest => dest.ProductID,

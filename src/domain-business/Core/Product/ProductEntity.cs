@@ -1,4 +1,5 @@
 ﻿using domain_business.Core.Transaction;
+using domain_business.Core.User;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -12,12 +13,14 @@ namespace domain_business.Core.Product
   {
 
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public long InternalProductID { get; set; }
+    public long ProductID { get; set; }
     public string Description { get; set; }
-    public string ProductID { get; set; }
     public string ProviderID { get; set; }
 
     public IList<TransactionEntity> Transactions { get; set; }
+
+    public long UserID { get; set; }
+    public UserEntity User { get; set; }
 
   }
 

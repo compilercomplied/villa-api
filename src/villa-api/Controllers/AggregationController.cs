@@ -6,6 +6,7 @@ using dal_villa.Context;
 using domain_business.Usecases.ProviderSync;
 using domain_service.Aggregation;
 using infra_http.Client.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -36,13 +37,16 @@ namespace villa_api.Controllers
     }
 
     [HttpPost]
-    [Route("sync")]
-    public async Task<IActionResult> Sync([FromBody]SyncRequest req)
+    [Route("data")]
+    [Authorize]
+    public async Task<IActionResult> Sync([FromBody]DataSyncRequest req)
     {
 
-      await _service.Sync(req ?? new SyncRequest { });
+      var user = BuildUser();
 
-      return Ok(new { message = "WIP"});
+      await _service.Sync(req ?? new DataSyncRequest { }, user);
+
+      return Ok();
 
     }
 
@@ -60,13 +64,14 @@ namespace villa_api.Controllers
 
     [HttpGet]
     [Route("auth/callback")]
-    public async Task<IActionResult> Callback([FromQuery] string code, [FromQuery] string state)
+    public async Task<IActionResult> Callback([FromQuery] string code)
     {
 
-      var credResponse = await _client.Authenticate(code, state);
-      var creds = credResponse.Unwrap();
+      var credResponse = await _client.Authenticate(code);
 
-      return Ok(creds);
+      credResponse.Unwrap();
+
+      return Ok();
 
     }
 

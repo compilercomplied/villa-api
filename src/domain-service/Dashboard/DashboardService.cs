@@ -53,8 +53,8 @@ namespace domain_service.Dashboard
         .Where(u => u.Subject == userData.Subject)
         .Select(s => new
         {
-          Tran = s.Transactions.Take(PAGE_SIZE),
-          Products = s.Products,
+          Transactions = s.Transactions.Take(PAGE_SIZE),
+          s.Products,
         })
         .FirstOrDefault();
 
@@ -62,9 +62,9 @@ namespace domain_service.Dashboard
       return Result<DashboardResponse>.OK(new DashboardResponse
       {
         Products =  _mapper
-          .Map<IEnumerable<DashboardProducts>>(query.Products),
+          .Map<IEnumerable<DashboardProduct>>(query.Products),
         Transactions = _mapper
-          .Map<IEnumerable<QueryListTransaction>>(query.Tran),
+          .Map<IEnumerable<QueryListTransaction>>(query.Transactions),
       });
 
     }

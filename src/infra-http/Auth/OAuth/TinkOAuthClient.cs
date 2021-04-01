@@ -73,7 +73,7 @@ namespace infra_http.Auth.OAuth
 
     // -------------------------------------------------------------------------
 
-    public async Task<OAuthResponse> Authenticate(string code, string state)
+    public async Task<OAuthResponse> Authenticate(string code)
     {
       OAuthResponse result;
 

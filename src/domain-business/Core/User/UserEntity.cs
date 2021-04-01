@@ -17,6 +17,7 @@ namespace domain_business.Core.User
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public long UserID { get; set; }
     public string Subject { get; set; }
+    public string Email { get; set; }
 
 
     public IList<ProductEntity> Products { get; set; }
